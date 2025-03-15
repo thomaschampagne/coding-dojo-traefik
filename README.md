@@ -60,7 +60,7 @@
 - **Middlewares**: Customize requests and response handling with ease and security.
 - **Observability**: Integrated monitoring and logging for better visibility.
 
-![](./presentation/imgs/macro-architecture.webp)
+> ![](./presentation/imgs/macro-architecture.webp)
 
 ## Architecture
 
@@ -68,31 +68,31 @@
 
 Traefik receives requests on predefined entrypoints, then routers analyze and match incoming requests, applies middleware transformations if needed before forwarding requests to services.
 
-![](./presentation/imgs/architecture/overview.png)
+> ![](./presentation/imgs/architecture/overview.png)
 
 ### EntryPoints
 
 EntryPoints are the network entry points into Traefik. They define the port which will receive the packets, and whether to listen for TCP or UDP.
 
-![](./presentation/imgs/architecture/entrypoints.png)
+> ![](./presentation/imgs/architecture/entrypoints.png)
 
 ### Routers
 
 A router is in charge of connecting incoming requests to the services that can handle them.
 
-![](./presentation/imgs/architecture/routers.webp)
+> ![](./presentation/imgs/architecture/routers.webp)
 
 ### Services
 
 The Services are responsible for configuring how to reach the actual services that will eventually handle the incoming requests.
 
-![](./presentation/imgs/architecture/services.png)
+> ![](./presentation/imgs/architecture/services.png)
 
 ### Middlewares
 
 Attached to the routers, pieces of middleware are a means of tweaking the requests before they are sent to your service (or before the answer from the services are sent to the clients).
 
-![](./presentation/imgs/architecture/middlewares.png)
+> ![](./presentation/imgs/architecture/middlewares.png)
 
 ### TODO Providers
 
