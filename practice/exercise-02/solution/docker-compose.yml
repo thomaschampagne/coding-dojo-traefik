@@ -1,0 +1,99 @@
+# Exercise 02 - SOLUTION
+# Map Your First Services Using Docker Provider & Labels
+
+version: '3.8'
+
+services:
+  traefik:
+    # Traefik image version 2.10
+    image: traefik:v2.10
+
+    # Exposed ports
+    ports:
+      - "80:80"     # HTTP (web entrypoint)
+      - "443:443"   # HTTPS (websecure entrypoint)
+      - "9000:8080" # Traefik Dashboard
+
+    # Mounted volumes
+    volumes:
+      # Docker socket to monitor containers
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Traefik configuration
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
+
+    # Command line arguments
+    command:
+      # Enable Docker provider
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+
+      # Define entrypoints
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+
+      # Enable API and dashboard
+      - --api.dashboard=true
+      - --api.insecure=true
+
+    # Labels for Traefik service itself
+    labels:
+      - "traefik.enable=true"
+
+    # Network
+    networks:
+      - traefik
+
+  # Whoami service
+  whoami:
+    # Image as specified in requirements
+    image: traefik/whoami:v1.11
+
+    # Traefik labels for service discovery
+    labels:
+      # Enable Traefik for this service
+      - "traefik.enable=true"
+
+      # Router configuration
+      - "traefik.http.routers.whoami.rule=Host(`whoami.dev.dojo.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+
+      # Service configuration (whoami runs on port 80 by default)
+      - "traefik.http.services.whoami.loadbalancer.server.port=80"
+
+    # Network
+    networks:
+      - traefik
+
+  # Filebrowser service
+  filebrowser:
+    # Image as specified in requirements
+    image: filebrowser/filebrowser:v2.42.2
+
+    # Volume for file storage (optional)
+    volumes:
+      - filebrowser_data:/srv
+
+    # Traefik labels for service discovery
+    labels:
+      # Enable Traefik for this service
+      - "traefik.enable=true"
+
+      # Router configuration
+      - "traefik.http.routers.filebrowser.rule=Host(`files.dev.dojo.localhost`)"
+      - "traefik.http.routers.filebrowser.entrypoints=web"
+
+      # Service configuration (filebrowser runs on port 80)
+      - "traefik.http.services.filebrowser.loadbalancer.server.port=80"
+
+    # Network
+    networks:
+      - traefik
+
+# Network definition
+networks:
+  traefik:
+    driver: bridge
+
+# Volume definition for filebrowser data
+volumes:
+  filebrowser_data:

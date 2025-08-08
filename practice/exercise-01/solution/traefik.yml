@@ -1,0 +1,37 @@
+# Traefik Configuration - SOLUTION
+# Exercise 01 - Initialize Docker Compose with Traefik Reverse Proxy and Dashboard
+
+# Entrypoints definition
+entryPoints:
+  # Entrypoint for HTTP (port 80)
+  web:
+    address: ":80"
+
+  # Entrypoint for HTTPS (port 443)
+  websecure:
+    address: ":443"
+
+# Providers configuration
+providers:
+  # Docker provider with configuration
+  docker:
+    # Enable Docker container monitoring
+    endpoint: "unix:///var/run/docker.sock"
+    # Don't automatically expose all containers
+    exposedByDefault: false
+    # Watch Docker events
+    watch: true
+
+# API and dashboard configuration
+api:
+  # Enable dashboard
+  dashboard: true
+  # Insecure mode for direct access (development only)
+  insecure: true
+
+# Log configuration (optional)
+log:
+  level: INFO
+
+# Access logs configuration (optional)
+accessLog: {}

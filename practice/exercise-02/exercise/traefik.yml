@@ -1,0 +1,20 @@
+# Traefik Configuration - Exercise 02
+# 
+# This file configures Traefik statically
+# Complete the configuration below (same as Exercise 01)
+
+# TODO: Define entrypoints
+# - web: port 80 (HTTP)
+# - websecure: port 443 (HTTPS)
+entryPoints:
+  # TO COMPLETE
+
+# TODO: Configure providers
+# Enable Docker provider with proper options
+providers:
+  # TO COMPLETE
+
+# TODO: Configure API and dashboard
+# API must be accessible and dashboard enabled
+api:
+  # TO COMPLETE

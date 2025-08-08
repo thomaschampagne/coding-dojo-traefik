@@ -1,0 +1,55 @@
+# Exercise 01 - SOLUTION
+# Initialize Docker Compose with Traefik Reverse Proxy and Dashboard
+
+version: '3.8'
+
+services:
+  traefik:
+    # Traefik image version 2.10
+    image: traefik:v2.10
+
+    # Exposed ports
+    ports:
+      - "80:80"     # HTTP (web entrypoint)
+      - "443:443"   # HTTPS (websecure entrypoint)
+      - "9000:8080" # Traefik Dashboard
+
+    # Mounted volumes
+    volumes:
+      # Docker socket to monitor containers
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Traefik configuration
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
+
+    # Command line arguments
+    command:
+      # Enable Docker provider
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+
+      # Define entrypoints
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+
+      # Enable API and dashboard
+      - --api.dashboard=true
+      - --api.insecure=true
+
+    # Labels for Traefik service itself
+    labels:
+      - "traefik.enable=true"
+
+      # Dashboard configuration
+      - "traefik.http.routers.traefik.rule=Host(`localhost`)"
+      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+
+    # Network
+    networks:
+      - traefik
+
+# Network definition
+networks:
+  traefik:
+    driver: bridge

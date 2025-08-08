@@ -1,0 +1,53 @@
+# Exercise 02 - Map Your First Services Using Docker Provider & Labels
+# 
+# Objective: Set up services using Docker provider and labels
+# 
+# Your mission:
+# 1. Configure Traefik (copy from Exercise 01)
+# 2. Add whoami service accessible at http://whoami.dev.dojo.localhost
+# 3. Add filebrowser service accessible at http://files.dev.dojo.localhost
+
+version: '3.8'
+
+services:
+  traefik:
+    # TODO: Copy configuration from Exercise 01
+    # Use traefik:v2.10 image
+    image: # TO COMPLETE
+
+    # TODO: Configure ports
+    ports:
+      # TO COMPLETE
+
+    # TODO: Mount volumes
+    volumes:
+      # TO COMPLETE
+
+    # TODO: Command line arguments
+    command:
+      # TO COMPLETE
+
+    # Labels for dashboard access
+    labels:
+      - "traefik.enable=true"
+
+    # Network
+    networks:
+      - traefik
+
+  # TODO: Add whoami service
+  # Image: traefik/whoami:v1.11
+  # Access: http://whoami.dev.dojo.localhost
+  whoami:
+    # TO COMPLETE
+
+  # TODO: Add filebrowser service  
+  # Image: filebrowser/filebrowser:v2.42.2
+  # Access: http://files.dev.dojo.localhost
+  filebrowser:
+    # TO COMPLETE
+
+# Network definition
+networks:
+  traefik:
+    driver: bridge
