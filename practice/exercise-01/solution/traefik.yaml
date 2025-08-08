@@ -1,0 +1,35 @@
+# Traefik Configuration - SOLUTION
+# Exercise 01 - Initialize Docker Compose with Traefik Reverse Proxy and Dashboard
+
+# Entrypoints definition
+entryPoints:
+  # Entrypoint for HTTP (port 3080) => > 1024 for rootless purposes
+  web:
+    address: ":3080"
+
+  # Entrypoint for HTTPS (port 3443) => > 1024 for rootless purposes
+  websecure:
+    address: ":3443"
+
+# Providers configuration
+providers:
+  # Docker provider with configuration
+  docker:
+    # Don't automatically expose all containers
+    exposedByDefault: false
+    # Watch Docker events
+    watch: true
+
+# API and dashboard configuration
+api:
+  # Enable dashboard
+  dashboard: true
+  # Insecure mode for direct access (development only)
+  insecure: true
+
+# Log configuration (optional)
+log:
+  level: INFO
+
+# Access logs configuration (optional)
+accessLog: {}

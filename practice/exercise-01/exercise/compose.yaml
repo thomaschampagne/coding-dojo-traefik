@@ -1,0 +1,27 @@
+# Exercise 01 - Initialize Docker Compose with Traefik Reverse Proxy and Dashboard
+#
+# Objective: Configure Traefik as reverse proxy with dashboard access
+#
+# Your mission:
+# 1. Complete the Traefik service configuration
+# 2. Mount necessary volumes (Docker socket + Traefik config)
+# 3. Define 'web' and 'websecure' entrypoints
+# 4. Enable dashboard access on http://localhost:9000
+
+services:
+  traefik:
+    # TODO: Specify Traefik image (version 3.5)
+    image: # TO COMPLETE
+
+    # TODO: Define ports to expose
+    # Port "8080:3080" # HTTP (web entrypoint)
+    # Port "8443:3443" # HTTPS (websecure entrypoint)
+    # Port "9000:8080" # Traefik Dashboard
+    ports:
+      # TO COMPLETE
+
+    # TODO: Mount necessary volumes
+    # 1. Docker socket to monitor containers
+    # 2. Traefik configuration file
+    volumes:
+      # TO COMPLETE

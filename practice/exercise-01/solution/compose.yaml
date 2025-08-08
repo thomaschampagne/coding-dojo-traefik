@@ -1,0 +1,22 @@
+# Exercise 01 - SOLUTION
+# Initialize Docker Compose with Traefik Reverse Proxy and Dashboard
+
+services:
+  traefik:
+    # Traefik image version 3.5
+    image: traefik:v3.5
+
+    # Exposed ports
+    ports:
+      - "8080:3080" # HTTP (web entrypoint)
+      - "8443:3443" # HTTPS (websecure entrypoint)
+      - "9000:8080" # Traefik Dashboard
+
+    # Mounted volumes
+    volumes:
+      # Podman socket to monitor containers (comment if using docker)
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
+      # Docker socket to monitor containers (comment if using podman)
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Traefik configuration
+      - ./traefik.yaml:/etc/traefik/traefik.yaml:ro

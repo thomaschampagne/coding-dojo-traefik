@@ -1,0 +1,63 @@
+theme: light
+
+log:
+  level: info
+
+authentication_backend:
+  file:
+    path: /config/users_database.yml
+    password:
+      algorithm: argon2id
+      iterations: 1
+      memory: 64
+      parallelism: 1
+      salt_length: 8
+      key_length: 16
+
+access_control:
+  default_policy: deny
+  # Set policy per domain here. Policies can be: "bypass, one_factor or two_factor"
+  rules:
+    # ========== 1FA ==========
+    - domain:
+        - whoami.dev.dojo.localhost
+        - draw.dev.dojo.localhost
+      policy: one_factor
+      subject:
+        - "group:users"
+        - "group:admins"
+
+    - domain:
+        - traefik.dev.dojo.localhost
+      policy: one_factor
+      subject:
+        - "group:admins"
+
+session:
+  secret: 7LZicHsDohab5MFkfjM5SeQPQ39bWQRMjwTowmiTAZ86Yj88R4bUrgEm8Xozjsui # TODO To be replaced by env overloading
+  inactivity: 30m
+  expiration: 1h
+  remember_me: 7d
+  cookies:
+    - name: auth_token
+      domain: dev.dojo.localhost # Should match whatever your root protected domain is
+      authelia_url: https://auth.dev.dojo.localhost:8443
+
+regulation:
+  max_retries: 3
+  find_time: 5m
+  ban_time: 60m
+
+identity_validation:
+  reset_password:
+    jwt_secret: 865jc9wuNo86ePw2eJ5HrhsF2c2VvXEZcMqXDoRkYoxVvbqGywAMVzqofDkSNRo3 # TODO To be replaced by env overloading
+
+storage:
+  encryption_key: w8F7mKf8V2l1cJc5XK4uYz7tD6oPp3QyN2rHj5Uv6Fz8Mt0Bv1Lq8aZ4eR9oGk3xY2mHj7Nq0Tg4Vb5Lz8Wc6Py7Sa9Dc2Jf3 # TODO To be replaced by env overloading /!\ must be random alphanumeric string with 64 or more characters: authelia crypto rand --length 128
+  local:
+    path: /config/db.sqlite3
+
+notifier:
+  disable_startup_check: false
+  filesystem:
+    filename: "/config/notification.txt"

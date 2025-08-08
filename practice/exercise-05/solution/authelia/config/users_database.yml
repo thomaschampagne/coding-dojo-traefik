@@ -1,0 +1,22 @@
+users:
+  alice:
+    displayname: "Alice In Wonderland"
+    password: "$argon2id$v=19$m=65536,t=3,p=4$154X+Ti3uzcyLLimS+okEQ$1xq9kHm72/7OiWGGIx82ifmoP3aWccX2EQL9emD3UXY" # Generated using 'authelia crypto hash generate'
+    email: alice@dev.dojo.localhost
+    groups:
+      - users
+
+  bob:
+    displayname: "Sponge Bob"
+    password: "$argon2id$v=19$m=65536,t=3,p=4$qsQU2u+K2sxFo9NauXPrXw$JCZX+JPf9E8y4DtnG584dAibr/xnypIZW9XnZBvDMaw" # Generated using 'authelia crypto hash generate'
+    email: bob@dev.dojo.localhost
+    groups:
+      - users
+
+  admin:
+    displayname: "Administrator"
+    password: "$argon2id$v=19$m=65536,t=3,p=4$dtQDzT5Kw+SSn8094b8rug$lRSlBJfgxZCRS8nicW5NX8t0hHPfbzqBhNq1MAVqR4E" # Generated using 'authelia crypto hash generate'
+    email: admin@dev.dojo.localhost
+    groups:
+      - users
+      - admins

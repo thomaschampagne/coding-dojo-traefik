@@ -1,0 +1,6 @@
+tls:
+  certificates:
+    # TODO To complete
+  options:
+    default:
+      # TODO Set the minimum TLS version to 1.2

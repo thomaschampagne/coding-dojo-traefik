@@ -1,0 +1,14 @@
+# Middlewares Configuration - SOLUTION
+# Exercise 03 - File Provider Middlewares
+
+http:
+  middlewares:
+    # Rate limiting middleware (very strict settings)
+    whoami-rate-limiter:
+      rateLimit:
+        # Average requests per second (very strict)
+        average: 1
+        # Maximum burst allowed (very strict)
+        burst: 1
+        # Period for rate limiting
+        period: "1s"
