@@ -1,0 +1,8 @@
+# Middlewares Configuration - Exercise 03
+#
+# This file defines middlewares using the File provider
+# Complete the middleware definitions below
+
+http:
+  middlewares:
+    # TODO Rate limiting middleware (very strict settings)

@@ -1,0 +1,14 @@
+# Exercise 04 - SOLUTION
+# Secure Traefik Endpoint
+
+tls:
+  certificates:
+    - certFile: /certs/default.crt
+      keyFile: /certs/default.key
+      stores:
+        - default
+
+  options:
+    default:
+      # Set the minimum TLS version to 1.2
+      minVersion: VersionTLS12

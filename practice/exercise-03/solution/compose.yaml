@@ -1,0 +1,72 @@
+# Exercise 03 - SOLUTION
+# Add Middlewares using Docker Provider & File Provider
+
+services:
+  traefik:
+    # Traefik image version 3.5
+    image: traefik:v3.5
+
+    # Exposed ports
+    ports:
+      - "8080:3080" # HTTP (web entrypoint)
+      - "8443:3443" # HTTPS (websecure entrypoint)
+      # - "9000:8080" # Traefik Dashboard ()
+
+    # (Bonus) Labels for Traefik service itself
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.dev.dojo.localhost`)"
+      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.routers.traefik.service=api@internal"
+
+    # Mounted volumes
+    volumes:
+      # Podman socket to monitor containers (comment if using docker)
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
+      # Docker socket to monitor containers (comment if using podman)
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Traefik configuration
+      - ./traefik.yaml:/etc/traefik/traefik.yaml:ro
+      # Middlewares file for file provider
+      - ./middlewares.yaml:/etc/traefik/file-providers/middlewares.yaml:ro
+
+  # Whoami service
+  whoami:
+    # Image as specified in requirements
+    image: traefik/whoami:v1.11
+
+    # Traefik labels for service discovery
+    labels:
+      # Enable Traefik for this service
+      - "traefik.enable=true"
+
+      # Router configuration
+      - "traefik.http.routers.whoami.rule=Host(`whoami.dev.dojo.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+      - "traefik.http.routers.whoami.service=whoami" # Note: Not mandatory
+      - "traefik.http.routers.whoami.middlewares=whoami-rate-limiter@file" # Apply the middleware named `whoami-rate-limiter@file` to the router
+
+      # Service configuration (whoami runs on port 80 by default)
+      - "traefik.http.services.whoami.loadbalancer.server.port=80" # Note: Not mandatory
+
+  # OpenDraw service
+  draw:
+    # Image as specified in requirements (using latest instead of the long path)
+    image: ghcr.io/thomaschampagne/open-draw:latest
+
+    # Traefik labels for service discovery
+    labels:
+      # Enable Traefik for this service
+      - "traefik.enable=true"
+
+        # Create inline middleware BasicAuth (user => dojo:dojo)
+      - "traefik.http.middlewares.draw-auth.basicauth.users=dojo:$$2y$$05$$SzmoZ53EBGjqccpkwkiZ4.hKJUEj7pKNVb43HQkg9eZsdvzCiuGsG"
+
+      # Router configuration
+      - "traefik.http.routers.draw.rule=Host(`draw.dev.dojo.localhost`)"
+      - "traefik.http.routers.draw.entrypoints=web"
+      - "traefik.http.routers.draw.service=draw" # Note: Not mandatory
+      - "traefik.http.routers.draw.middlewares=draw-auth@docker" # Apply the middleware named `whoami-auth@docker` to the router
+
+      # Service configuration (draw runs on port 80)
+      - "traefik.http.services.draw.loadbalancer.server.port=3000" # Note: Not mandatory

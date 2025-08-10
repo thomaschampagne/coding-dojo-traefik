@@ -1,0 +1,34 @@
+# Exercise 02 - SOLUTION
+# Map Your First Services Using Docker Provider & Labels
+
+services:
+  traefik:
+    # Traefik image version 3.5
+    image: traefik:v3.5
+
+    # Exposed ports
+    ports:
+      - "8080:3080" # HTTP (web entrypoint)
+      - "8443:3443" # HTTPS (websecure entrypoint)
+      - "9000:8080" # Traefik Dashboard
+
+    # Mounted volumes
+    volumes:
+      # Podman socket to monitor containers (comment if using docker)
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
+      # Docker socket to monitor containers (comment if using podman)
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Traefik configuration
+      - ./traefik.yaml:/etc/traefik/traefik.yaml:ro
+
+  # TODO: Add whoami service
+  # Image: traefik/whoami:v1.11
+  # Access: http://whoami.dev.dojo.localhost
+  whoami:
+    # TO COMPLETE
+
+  # TODO: Add draw service
+  # Image: ghcr.io/thomaschampagne/open-draw:latest
+  # Access: http://draw.dev.dojo.localhost
+  draw:
+    # TO COMPLETE

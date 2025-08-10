@@ -1,0 +1,38 @@
+# Traefik Configuration - SOLUTION
+# Exercise 03 - Add Middlewares using Docker Provider & File Provider
+
+# Entrypoints definition
+entryPoints:
+  # Entrypoint for HTTPS (port 3443) => > 1024 for rootless purposes
+  websecure:
+    address: ":3443"
+
+# Providers configuration
+providers:
+  # Docker provider with configuration
+  docker:
+    # Don't automatically expose all containers
+    exposedByDefault: false
+    # Watch Docker events
+    watch: true
+
+  # File provider for middleware definitions
+  file:
+    # Directory containing configuration files
+    directory: /etc/traefik/file-providers
+    # Watch for file changes
+    watch: true
+
+# API and dashboard configuration
+api:
+  # Enable dashboard
+  dashboard: true
+  # Insecure mode for direct access (development only)
+  insecure: true
+
+# Log configuration (optional)
+log:
+  level: INFO
+
+# Access logs configuration (optional)
+accessLog: {}

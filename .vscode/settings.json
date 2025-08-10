@@ -1,0 +1,25 @@
+{
+    "cSpell.words": [
+        "Traefik"
+    ],
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#ffe5b3",
+        "activityBar.background": "#ffe5b3",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#009f69",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#15202b99",
+        "sash.hoverBorder": "#ffe5b3",
+        "statusBar.background": "#ffd480",
+        "statusBar.foreground": "#15202b",
+        "statusBarItem.hoverBackground": "#ffc34d",
+        "statusBarItem.remoteBackground": "#ffd480",
+        "statusBarItem.remoteForeground": "#15202b",
+        "titleBar.activeBackground": "#ffd480",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.inactiveBackground": "#ffd48099",
+        "titleBar.inactiveForeground": "#15202b99"
+    },
+    "peacock.color": "#ffd480"
+}
