@@ -2,6 +2,11 @@
 
 - [Goals](#goals)
 - [Pre-requisite](#pre-requisite)
+  - [Knowledge \& Concepts required](#knowledge--concepts-required)
+  - [Dev Env requirements](#dev-env-requirements)
+    - [Host/VM configuration](#hostvm-configuration)
+    - [Recommended IDE Extensions](#recommended-ide-extensions)
+    - [Useful links](#useful-links)
 - [What is Traefik?](#what-is-traefik)
   - [Definition](#definition)
   - [Use Cases](#use-cases)
@@ -20,7 +25,7 @@
   - [Exercise 01 – Set Up Docker Compose with Traefik Reverse Proxy and Dashboard](#exercise-01--set-up-docker-compose-with-traefik-reverse-proxy-and-dashboard)
   - [Exercise 02 – Map Your First Services Using Traefik Docker Provider \& Labels](#exercise-02--map-your-first-services-using-traefik-docker-provider--labels)
   - [Exercise 03 – Add Rate Limiter \& Authentication Middlewares using File \& Docker Traefik Providers](#exercise-03--add-rate-limiter--authentication-middlewares-using-file--docker-traefik-providers)
-  - [Exercise 04 – Secure Traefik Endpoint with a Certificate Signed by a `Fake Coding Dojo Certificate Authority`](#exercise-04--secure-traefik-endpoint-with-a-certificate-signed-by-a-thales-coding-dojo-certificate-authority)
+  - [Exercise 04 – Secure Traefik Endpoint with a Certificate Signed by a `Fake Coding Dojo Certificate Authority`](#exercise-04--secure-traefik-endpoint-with-a-certificate-signed-by-a-fake-coding-dojo-certificate-authority)
   - [Exercice 05 (Bonus) - Use Case Single Sign On with Authelia](#exercice-05-bonus---use-case-single-sign-on-with-authelia)
 
 ## Goals
@@ -31,7 +36,19 @@
 
 ## Pre-requisite
 
-- We assume you have a basic knowledge and use of `Docker` or `Podman` or `Nerdctl`
+### Knowledge & Concepts required
+
+We assume you have a basic understanding of the following concepts. If you're not familiar with any of these, you may follow the videos linked below to catch up.
+
+| Knowledge & Concepts                                                       | Tutorial to follow                             |
+| ----------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| **Docker, Podman, or Nerdctl**: Basic knowledge of containerization tools     | [Docker Tutorial](https://www.youtube.com/watch?v=pg19Z8LL06w)  |
+| **Compose**: Familiarity with Compose infrastructure                          | [Compose Tutorial](https://www.youtube.com/watch?v=SXwC9fSwct8) |
+| **Proxies and Reverse Proxies**: Understanding of proxies and reverse proxies | [Proxies Tutorial](https://www.youtube.com/watch?v=xo5V9g9joFs) |
+
+### Dev Env requirements
+
+#### Host/VM configuration
 
 - Following requirements must be enabled on your `Host or VM`:
   
@@ -44,13 +61,18 @@
   - Linux (bash/sh): `alias docker='podman'`
   - PowerShell: `function docker { podman @Args }`
 
-- Recommended VS Code Extensions:
+#### Recommended IDE Extensions
+
+- `VS Code` recommended extensions:
   - [redhat.vscode-yaml](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
   - [ms-azuretools.vscode-containers](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-containers)
 
-- Useful links:
-  - [Docker (moby) via Rancher Desktop](https://rancherdesktop.io/)
-  - [Podman (+ Desktop)](https://podman.io/)
+#### Useful links
+
+Download links:
+
+- [Docker (moby) via Rancher Desktop](https://rancherdesktop.io/)
+- [Podman (+ Desktop)](https://podman.io/)
 
 ## What is Traefik?
 
