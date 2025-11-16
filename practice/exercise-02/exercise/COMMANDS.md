@@ -31,7 +31,7 @@ podman compose down -v
 
 ```bash
 # Test dashboard connectivity
-curl http://localhost:9000/api/rawdata
+curl http://traefik.dev.dojo.localhost:8080
 curl http://whoami.dev.dojo.localhost:8080
 curl http://draw.dev.dojo.localhost:8080
 ```

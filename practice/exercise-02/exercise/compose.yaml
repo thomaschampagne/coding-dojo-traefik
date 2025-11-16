@@ -14,10 +14,10 @@ services:
 
     # Mounted volumes
     volumes:
-      # Podman socket to monitor containers (comment if using docker)
-      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
-      # Docker socket to monitor containers (comment if using podman)
-      # - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Podman socket to monitor containers directly from linux
+      # - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
+      # Docker/Podman socket to monitor containers (comment if using podman from linux directly)
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       # Traefik configuration
       - ./traefik.yaml:/etc/traefik/traefik.yaml:ro
 

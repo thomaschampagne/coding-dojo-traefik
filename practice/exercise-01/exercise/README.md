@@ -26,8 +26,8 @@ Set up a Podman Compose environment with Traefik as reverse proxy and dashboard 
 1. Specify Traefik image (version 3.5)
 2. Configure ports `host:container` (`8080:3080`, `8443:3443`, `9000:8080`)
 3. Mount necessary volumes:
-   - Podman socket: `/run/user/1000/podman/podman.sock:/var/run/docker.sock:ro`
-   - (If Docker) use instead socket: `/var/run/docker.sock:/var/run/docker.sock:ro`
+   - Podman socket directly from linux: `/run/user/1000/podman/podman.sock:/var/run/docker.sock:ro`
+   - Docker/Podman use instead socket: `/var/run/docker.sock:/var/run/docker.sock:ro`
    - Traefik configuration: `./traefik.yaml:/etc/traefik/traefik.yaml:ro`
 4. Edit Traefik to:
    - Enable Docker provider inside Traefik

@@ -22,10 +22,10 @@ services:
 
     # Mounted volumes
     volumes:
-      # Podman socket to monitor containers (comment if using docker)
-      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
-      # Docker socket to monitor containers (comment if using podman)
-      # - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Podman socket to monitor containers directly from linux
+      # - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
+      # Docker/Podman socket to monitor containers (comment if using podman from linux directly)
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       # Traefik configuration
       - ./traefik.yaml:/etc/traefik/traefik.yaml:ro
       # Middlewares file for file provider
@@ -48,12 +48,12 @@ services:
       # Router configuration
       - "traefik.http.routers.whoami.rule=Host(`whoami.dev.dojo.localhost`)"
       - "traefik.http.routers.whoami.entrypoints=websecure" # Force websecure only
-      - "traefik.http.routers.whoami.service=whoami" # Note: Not mandatory
+      - "traefik.http.routers.whoami.service=whoami"
       - "traefik.http.routers.whoami.middlewares=whoami-rate-limiter@file,authelia-forward-auth@file" # Apply the middleware named `whoami-rate-limiter@file` to the router
       - "traefik.http.routers.whoami.tls=true" # Enable TLS on router
 
       # Service configuration (whoami runs on port 80 by default)
-      - "traefik.http.services.whoami.loadbalancer.server.port=80" # Note: Not mandatory
+      - "traefik.http.services.whoami.loadbalancer.server.port=80"
 
   # OpenDraw service
   draw:
@@ -68,12 +68,12 @@ services:
       # Router configuration
       - "traefik.http.routers.draw.rule=Host(`draw.dev.dojo.localhost`)"
       - "traefik.http.routers.draw.entrypoints=websecure" # Force websecure only
-      - "traefik.http.routers.draw.service=draw" # Note: Not mandatory
+      - "traefik.http.routers.draw.service=draw"
       - "traefik.http.routers.draw.middlewares=authelia-forward-auth@file" # Apply the middleware named `whoami-auth@docker` to the router
       - "traefik.http.routers.draw.tls=true" # Enable TLS on router
 
       # Service configuration (draw runs on port 80)
-      - "traefik.http.services.draw.loadbalancer.server.port=3000" # Note: Not mandatory
+      - "traefik.http.services.draw.loadbalancer.server.port=3000"
 
   # Keep Old OpenDraw service as backup
   basic-auth-draw:
@@ -91,12 +91,12 @@ services:
       # Router configuration
       - "traefik.http.routers.basic-auth-draw.rule=Host(`basic-auth-draw.dev.dojo.localhost`)"
       - "traefik.http.routers.basic-auth-draw.entrypoints=websecure" # Force websecure only
-      - "traefik.http.routers.basic-auth-draw.service=draw" # Note: Not mandatory
+      - "traefik.http.routers.basic-auth-draw.service=draw"
       - "traefik.http.routers.basic-auth-draw.middlewares=basic-auth-draw@docker" # Apply the middleware named `whoami-auth@docker` to the router
       - "traefik.http.routers.basic-auth-draw.tls=true" # Enable TLS on router
 
       # Service configuration (draw runs on port 80)
-      - "traefik.http.services.draw.loadbalancer.server.port=3000" # Note: Not mandatory
+      - "traefik.http.services.draw.loadbalancer.server.port=3000"
 
   authelia:
     image: authelia/authelia:4.39.6
