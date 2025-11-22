@@ -83,7 +83,7 @@ This configuration file will be loaded by Traefik File Provider just after
 ### Step 5: Launch services
 
 ```bash
-podman compose -p exercice-03 down; podman compose -p exercice-03 up -d
+podman compose up
 ```
 
 ### Step 6: Test middlewares

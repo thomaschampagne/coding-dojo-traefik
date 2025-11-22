@@ -44,7 +44,7 @@ Set up services using the Docker provider and labels via a docker compose file.
    - Enable Traefik with `traefik.enable=true`
    - Set router rule for `whoami.dev.dojo.localhost`
    - Configure entrypoint to use `web`
-   - (Optional) Configure the default service `whoami` on `whoami` router w/ `traefik.http.routers.whoami.se(Optional) rvice=whoami`
+   - (Optional) Configure the default service `whoami` on `whoami` router w/ `traefik.http.routers.whoami.service=whoami`
    - Map container port `80` to the `whoami` service loadbalancer w/ `traefik.http.services.whoami.loadbalancer.server.port=80`
 
 3. Add `draw` service with proper labels:
@@ -61,7 +61,7 @@ Copy the configuration from Exercise 01
 ### Step 3: Launch services
 
 ```bash
-podman compose -p exercice-02 down; podman compose -p exercice-02 up -d
+podman compose up
 ```
 
 ### Step 4: Test access

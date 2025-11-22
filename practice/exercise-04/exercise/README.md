@@ -71,7 +71,7 @@ To install it on `Windows`:
 ### Step 8: Launch services
 
 ```bash
-podman compose -p exercice-04 down; podman compose -p exercice-04 up -d
+podman compose up
 ```
 
 ### Step 9: Test secured endpoints

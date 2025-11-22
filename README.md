@@ -168,14 +168,14 @@ In this exercice you will:
 - Deploy your first services using Podman Compose and Docker labels. Services will be:
   - **whoami** (debug container service):  
     - _Image_: [`traefik/whoami:v1.11`](https://hub.docker.com/r/traefik/whoami)
-    - _URL_: [http://whoami.dev.dojo.localhost](http://whoami.dev.dojo.localhost)
+    - _URL_: [http://whoami.dev.dojo.localhost:8080](http://whoami.dev.dojo.localhost:8080)
 
   - **open-draw** (Based on [Excalidraw](https://excalidraw.com/) whiteboard without _Marketing Features_, _Analytics_, ...):  
     - _Image_: [`ghcr.io/thomaschampagne/open-draw:latest`](https://github.com/thomaschampagne/open-draw)
-    - _URL_: [http://draw.dev.dojo.localhost](http://draw.dev.dojo.localhost)
+    - _URL_: [http://draw.dev.dojo.localhost:8080](http://draw.dev.dojo.localhost:8080)
 
   - (As Bonus) **Traefik Dashboard**: Access Traefik dashboard through Traefik itself:
-    - _URL_:[http://traefik.dev.dojo.localhost](http://traefik.dev.dojo.localhost)
+    - _URL_:[http://traefik.dev.dojo.localhost:8080](http://traefik.dev.dojo.localhost:8080)
     - _Ports_: Drop `9000:8080` (`host:container`) port mapping.
 
 > Go to [Exercise-02 README.md](./practice/exercise-02/exercise/README.md) to follow this exercice guided.

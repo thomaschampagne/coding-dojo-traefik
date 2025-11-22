@@ -46,7 +46,7 @@ Set up a Podman Compose environment with Traefik as reverse proxy and dashboard 
 ### Step 3: Launch environment
 
 ```bash
-podman compose -p exercice-01 down; podman compose -p exercice-01 up -d
+podman compose up
 ```
 
 ### Step 4: Verify
@@ -56,7 +56,7 @@ podman compose -p exercice-01 down; podman compose -p exercice-01 up -d
 
 ## Tips
 
-- Check Traefik v3.5 documentation if needed
+- Check Traefik v3.6 documentation if needed
 - Podman volumes should be mounted read-only (`:ro`)
 
 ## Expected Result
