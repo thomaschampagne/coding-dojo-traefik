@@ -20,6 +20,7 @@
   - [Providers](#providers)
     - [Docker](#docker)
     - [Files](#files)
+  - [Configuration Samples](#configuration-samples)
 - [Demo](#demo)
 - [Practice](#practice)
   - [Exercise 01 – Set Up Docker Compose with Traefik Reverse Proxy and Dashboard](#exercise-01--set-up-docker-compose-with-traefik-reverse-proxy-and-dashboard)
@@ -127,6 +128,31 @@ Attached to the routers, pieces of middleware are a means of tweaking the reques
 
 > ![](./presentation/imgs/architecture/middlewares.webp)
 
+- Middlewares Examples:
+  
+  - **Headers**:
+  
+    ![](./presentation/imgs/architecture/headers.png)
+
+  - **Basic Auth**:
+    ![](./presentation/imgs/architecture/basicauth.webp)
+  
+  - **Auth Forward**:
+  
+    ![](./presentation/imgs/architecture/authforward.png)
+
+  - **Circuit Breaker**:
+
+    ![](./presentation/imgs/architecture/circuitbreaker.png)
+
+  - **Ip WhiteList**:
+
+    ![](./presentation/imgs/architecture/ipwhitelist.png)
+
+  - **Compress**:
+
+    ![](./presentation/imgs/architecture/compress.png)
+
 ### Providers
 
 Providers in Traefik are components that define where and how Traefik fetches configuration data. They enable Traefik to discover services, routes, and endpoints dynamically or statically from various sources (Docker socket, Kubernetes, Swarm, Nomad, ...)
@@ -143,6 +169,105 @@ Automatically detects running Docker containers and reads their labels to create
 #### Files
 
 Static files (YAML, TOML, or JSON) to define routers, services, middlewares, and other settings. Useful for predefined configurations or when dynamic discovery isn't required, allowing fine control over Traefik’s behavior.
+
+### Configuration Samples
+
+- Traefik `traefik.yaml` main configuration file sample
+
+```yaml
+
+# Entrypoints definition
+entryPoints:
+  # Entrypoint for HTTP (port 3080) => > 1024 for rootless purposes
+  web:
+    address: ":3080"
+
+  # Entrypoint for HTTPS (port 3443) => > 1024 for rootless purposes
+  websecure:
+    address: ":3443"
+
+# Providers configuration
+providers:
+  # Docker provider with configuration
+  docker:
+    # Don't automatically expose all containers
+    exposedByDefault: false
+    # Watch Docker events
+    watch: true
+
+  # File provider for middleware definitions
+  file:
+    # Directory containing configuration files
+    directory: /etc/traefik/file-providers
+    # Watch for file changes
+    watch: true
+
+# API and dashboard configuration
+api:
+  # Enable dashboard
+  dashboard: true
+  # Insecure mode for direct access (development only)
+  insecure: true
+
+# Log configuration (optional)
+log:
+  level: INFO
+```
+
+- Traefik `middlewares.yaml` sample (to be loaded via file provider)
+
+```yaml
+http:
+  middlewares:
+    # Rate limiting middleware (very strict settings)
+    whoami-rate-limiter:
+      rateLimit:
+        # Average requests per second (very strict)
+        average: 1
+        # Maximum burst allowed (very strict)
+        burst: 1
+        # Period for rate limiting
+        period: "1s"
+```
+
+- Docker `compose.yaml` sample
+
+```yaml
+services:
+  traefik:
+    image: traefik:v3.6
+
+    # Exposed ports
+    ports:
+      - "8080:3080" # HTTP (web entrypoint)
+      - "8443:3443" # HTTPS (websecure entrypoint)
+
+    # Mounted volumes
+    volumes:
+      # Map docker socket to monitor containers
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Traefik configuration
+      - ./traefik.yaml:/etc/traefik/traefik.yaml:ro
+
+  # Whoami service
+  whoami:
+    # Image as specified in requirements
+    image: traefik/whoami:v1.11
+
+    # Traefik labels for service discovery
+    labels:
+      # Enable Traefik for this service
+      - "traefik.enable=true"
+
+      # Router configuration
+      - "traefik.http.routers.whoami.rule=Host(`whoami.dev.dojo.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+      - "traefik.http.routers.whoami.service=whoami"
+      - "traefik.http.routers.whoami.middlewares=whoami-rate-limiter@file" # Apply the middleware named `whoami-rate-limiter@file` to the router
+
+      # Service configuration (whoami runs on port 80 by default)
+      - "traefik.http.services.whoami.loadbalancer.server.port=80"
+```
 
 ## Demo
 
