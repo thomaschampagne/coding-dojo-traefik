@@ -10,7 +10,7 @@
 
 services:
   traefik:
-    # TODO: Specify Traefik image (version 3.5)
+    # TODO: Specify Traefik image (version 3.6)
     image: # TO COMPLETE
 
     # TODO: Define ports to expose

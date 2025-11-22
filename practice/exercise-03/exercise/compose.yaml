@@ -8,8 +8,8 @@
 
 services:
   traefik:
-    # Traefik image version 3.5
-    image: traefik:v3.5
+    # Traefik image version 3.6
+    image: traefik:v3.6
 
     # Exposed ports
     ports:
