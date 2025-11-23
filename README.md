@@ -28,6 +28,8 @@
   - [Exercise 03 – Add Rate Limiter \& Authentication Middlewares using File \& Docker Traefik Providers](#exercise-03--add-rate-limiter--authentication-middlewares-using-file--docker-traefik-providers)
   - [Exercise 04 – Secure Traefik Endpoint with a Certificate Signed by a `Fake Coding Dojo Certificate Authority`](#exercise-04--secure-traefik-endpoint-with-a-certificate-signed-by-a-fake-coding-dojo-certificate-authority)
   - [Exercice 05 (Bonus) - Use Case Single Sign On with Authelia](#exercice-05-bonus---use-case-single-sign-on-with-authelia)
+- [Appendix](#appendix)
+  - [Open Excalidraw Presentation](#open-excalidraw-presentation)
 
 ## Goals
 
@@ -170,6 +172,36 @@ Automatically detects running Docker containers and reads their labels to create
 
 Static files (YAML, TOML, or JSON) to define routers, services, middlewares, and other settings. Useful for predefined configurations or when dynamic discovery isn't required, allowing fine control over Traefik’s behavior.
 
+```yaml
+http:
+  routers:
+    ha-secure:
+      rule: Host(`home-assistant.focale.homelab.dev`)
+      tls:
+        certResolver: letsencrypt
+      entrypoints:
+        - websecure
+      middlewares:
+        - redirect-secure
+        - secure-headers
+        - france-ip-whitelist@file
+      service: ha
+  middlewares:
+    redirect:
+      redirectScheme:
+        scheme: http
+        permanent: true
+    redirect-secure:
+      redirectScheme:
+        scheme: https
+        permanent: true
+  services:
+    ha:
+      loadBalancer:
+        servers:
+          - url: 'http://focale.lan:8123/'
+```
+
 ### Configuration Samples
 
 - Traefik `traefik.yaml` main configuration file sample
@@ -248,6 +280,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # Traefik configuration
       - ./traefik.yaml:/etc/traefik/traefik.yaml:ro
+      # Middlewares file for file provider
+      - ./middlewares.yaml:/etc/traefik/file-providers/middlewares.yaml:ro
 
   # Whoami service
   whoami:
@@ -377,3 +411,17 @@ In this exercice you will analyse a `Single Sign On (SSO)` integration over all 
     - Try to access <https://traefik.dev.dojo.localhost:8443/> with `admin:admin` => should work as expected.
 
 _Solution of this exercice is under [./practice/exercise-05/solution/](./practice/exercise-05/solution/)_
+
+## Appendix
+
+### Open Excalidraw Presentation
+
+- Run below service
+
+```bash
+podman run -dit --rm --name open-draw -p 3000:3000 ghcr.io/thomaschampagne/open-draw:latest
+```
+
+- Go to <http://localhost:3000/>
+
+- Then load `presentation/traefik-architecture-presentation.excalidraw` file
