@@ -27,12 +27,12 @@ Set up services using the Docker provider and labels via a docker compose file.
 
 ### 1. Whoami service
 
-- **Image**: `traefik/whoami:v1.11`
+- **Image**: `whoami:v1.11`
 - **Access via FQDN**: <http://whoami.dev.dojo.localhost:8080>
 
 ### 2. Draw service
 
-- **Image**: `ghcr.io/thomaschampagne/open-draw:latest`
+- **Image**: `open-draw:latest`
 - **Access via FQDN**: <http://draw.dev.dojo.localhost:8080>
 
 ## Instructions

@@ -38,7 +38,7 @@ services:
   # Whoami service
   whoami:
     # Image as specified in requirements
-    image: traefik/whoami:v1.11
+    image: whoami:v1.11
 
     # Traefik labels for service discovery
     labels:
@@ -58,7 +58,7 @@ services:
   # OpenDraw service
   draw:
     # Image as specified in requirements (using latest instead of the long path)
-    image: ghcr.io/thomaschampagne/open-draw:latest
+    image: open-draw:latest
 
     # Traefik labels for service discovery
     labels:
@@ -78,7 +78,7 @@ services:
   # Keep Old OpenDraw service as backup
   basic-auth-draw:
     # Image as specified in requirements (using latest instead of the long path)
-    image: ghcr.io/thomaschampagne/open-draw:latest
+    image: open-draw:latest
 
     # Traefik labels for service discovery
     labels:
@@ -99,7 +99,7 @@ services:
       - "traefik.http.services.draw.loadbalancer.server.port=3000"
 
   authelia:
-    image: authelia/authelia:4.39.6
+    image: authelia:4.39.6
     container_name: authelia
     volumes:
       - ./authelia/config:/config

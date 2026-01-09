@@ -22,13 +22,13 @@ services:
       - ./traefik.yaml:/etc/traefik/traefik.yaml:ro
 
   # TODO: Add whoami service
-  # Image: traefik/whoami:v1.11
+  # image:  whoami:v1.11
   # Access: http://whoami.dev.dojo.localhost
   whoami:
     # TO COMPLETE
 
   # TODO: Add draw service
-  # Image: ghcr.io/thomaschampagne/open-draw:latest
+  # image:  open-draw:latest
   # Access: http://draw.dev.dojo.localhost
   draw:
     # TO COMPLETE

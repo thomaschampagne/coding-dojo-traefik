@@ -5,6 +5,7 @@
   - [Knowledge \& Concepts required](#knowledge--concepts-required)
   - [Dev Env requirements](#dev-env-requirements)
     - [Host/VM configuration](#hostvm-configuration)
+    - [Pre-Pull Images](#pre-pull-images)
     - [Recommended IDE Extensions](#recommended-ide-extensions)
     - [Useful links](#useful-links)
 - [What is Traefik?](#what-is-traefik)
@@ -63,6 +64,17 @@ We assume you have a basic understanding of the following concepts. If you're no
 - We will use command `podman` as reference for the coding dojo. Replace by `docker` or `nerdctl` according your container runtime. Or make a session terminal alias with:
   - Linux (bash/sh): `alias docker='podman'`
   - PowerShell: `function docker { podman @Args }`
+
+#### Pre-Pull Images
+
+Pull below images
+
+```bash
+podman pull traefik:v3.6
+podman pull open-draw:latest
+podman pull whoami:v1.11
+podman pull authelia:4.39.6
+```
 
 #### Recommended IDE Extensions
 
@@ -286,7 +298,7 @@ services:
   # Whoami service
   whoami:
     # Image as specified in requirements
-    image: traefik/whoami:v1.11
+    image: whoami:v1.11
 
     # Traefik labels for service discovery
     labels:
@@ -294,13 +306,13 @@ services:
       - "traefik.enable=true"
 
       # Router configuration
-      - "traefik.http.routers.whoami.rule=Host(`whoami.dev.dojo.localhost`)"
-      - "traefik.http.routers.whoami.entrypoints=web"
-      - "traefik.http.routers.whoami.service=whoami"
-      - "traefik.http.routers.whoami.middlewares=whoami-rate-limiter@file" # Apply the middleware named `whoami-rate-limiter@file` to the router
+      - "traefik.http.routers.my-router.rule=Host(`whoami.dev.dojo.localhost`)"
+      - "traefik.http.routers.my-router.entrypoints=web"
+      - "traefik.http.routers.my-router.service=my-service"
+      - "traefik.http.routers.my-router.middlewares=whoami-rate-limiter@file" # Apply the middleware named `whoami-rate-limiter@file` to the router
 
       # Service configuration (whoami runs on port 80 by default)
-      - "traefik.http.services.whoami.loadbalancer.server.port=80"
+      - "traefik.http.services.my-service.loadbalancer.server.port=80"
 ```
 
 ## Demo
@@ -326,11 +338,11 @@ In this exercice you will:
 
 - Deploy your first services using Podman Compose and Docker labels. Services will be:
   - **whoami** (debug container service):  
-    - _Image_: [`traefik/whoami:v1.11`](https://hub.docker.com/r/traefik/whoami)
+    - _Image_: [`whoami:v1.11`](https://hub.docker.com/r/traefik/whoami)
     - _URL_: [http://whoami.dev.dojo.localhost:8080](http://whoami.dev.dojo.localhost:8080)
 
   - **open-draw** (Based on [Excalidraw](https://excalidraw.com/) whiteboard without _Marketing Features_, _Analytics_, ...):  
-    - _Image_: [`ghcr.io/thomaschampagne/open-draw:latest`](https://github.com/thomaschampagne/open-draw)
+    - _Image_: [`open-draw:latest`](https://github.com/thomaschampagne/open-draw)
     - _URL_: [http://draw.dev.dojo.localhost:8080](http://draw.dev.dojo.localhost:8080)
 
   - (As Bonus) **Traefik Dashboard**: Access Traefik dashboard through Traefik itself:
@@ -419,7 +431,7 @@ _Solution of this exercice is under [./practice/exercise-05/solution/](./practic
 - Run below service
 
 ```bash
-podman run -dit --rm --name open-draw -p 3000:3000 ghcr.io/thomaschampagne/open-draw:latest
+podman run -dit --rm --name open-draw -p 3000:3000 open-draw:latest
 ```
 
 - Go to <http://localhost:3000/>
